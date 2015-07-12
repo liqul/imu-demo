@@ -20,6 +20,9 @@ int accelerometer_data[3];
 int gyro_data[3];
 int magnetometer_data[3];
 
+float accelerometer_norm[3];
+float gyro_comp[3];
+
 char c;
 
 void setup() {
@@ -38,35 +41,33 @@ void setup() {
 void loop() {
   read_itg3200();
 
-  //Serial.print("GYRO: ");
-  Serial.print(gyro_data[0] + 49);
+  Serial.print("GYRO: ");
+  Serial.print(gyro_data[0] + gyro_comp[0]);
   Serial.print(",");
-  Serial.print(gyro_data[1] + 28);
+  Serial.print(gyro_data[1] + gyro_comp[1]);
   Serial.print(",");
-  Serial.print(gyro_data[2] + 8);
+  Serial.print(gyro_data[2] + gyro_comp[2]);
   Serial.print(",");
 
   read_adxl345();
 
-  //Serial.print("ACCEL: ");
-  Serial.print(accelerometer_data[0] / 255.0);
+  Serial.print("ACCEL: ");
+  Serial.print(accelerometer_data[0] / accelerometer_norm[0]);
   Serial.print(",");
-  Serial.print(accelerometer_data[1] / 255.0);
+  Serial.print(accelerometer_data[1] / accelerometer_norm[1]);
   Serial.print(",");
-  Serial.print(accelerometer_data[2] / 215.0);
+  Serial.print(accelerometer_data[2] / accelerometer_norm[2]);
   Serial.print(",");
 
   read_hmc5843();
 
-  //Serial.print("MAG: ");
+  Serial.print("MAG: ");
   Serial.print(magnetometer_data[0]);
   Serial.print(",");
   Serial.print(magnetometer_data[1]);
   Serial.print(",");
   Serial.print(magnetometer_data[2]);
   Serial.print("\n");
-
-
 
   delay(10);
 }
